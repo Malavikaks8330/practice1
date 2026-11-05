@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGIS – Polpully Grama Panchayat | LSGD Kerala</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* CSS Variables for a Modernized LSGD Theme */
+        :root {
+            --lsgd-green: #0a7339;
+            --lsgd-green-dark: #064d25;
+            --lsgd-green-light: #e8f5ec;
+            --govt-gold: #D4AF37;
+            --govt-gold-hover: #c49d2a;
+            --text-dark: #2C3E50;
+            --text-muted: #5b6b7a;
+            --bg-light: #f4f7f6;
+            --white: #ffffff;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow-sm: 0 4px 6px rgba(0,0,0,0.05);
+            --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
+            --shadow-hover: 0 15px 40px rgba(10, 115, 57, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Top Bar --- */
+        .top-bar {
+            background-color: var(--lsgd-green-dark);
+            color: var(--white);
+            padding: 10px 5%;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            letter-spacing: 0.5px;
+        }
+
+        .top-bar a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 20px;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .top-bar a:hover {
+            color: var(--govt-gold);
+        }
+
+        /* --- Official Header --- */
+        .official-header {
+            background-color: var(--white);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            height: 75px;
+            object-fit: contain;
+            transition: var(--transition);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .ssus-logo {
+            border-radius: 50%;
+            border: 2px solid var(--lsgd-green-light);
+        }
+
+        .header-titles {
+            text-align: center;
+            flex: 1;
+            padding: 0 20px;
+        }
+
+        .header-titles h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 30px;
+            color: var(--lsgd-green);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .header-titles h2 {
+            font-size: 15px;
+            color: var(--text-muted);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* --- Navigation --- */
+        .navbar {
+            background-color: var(--white);
+            border-top: 1px solid #eee;
+            border-bottom: 3px solid var(--lsgd-green);
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        }
+
+        .navbar a {
+            padding: 16px 30px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navbar a:hover {
+            background-color: var(--lsgd-green-light);
+            color: var(--lsgd-green);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            position: relative;
+            height: 500px;
+            background: linear-gradient(to right, rgba(6, 77, 37, 0.9), rgba(10, 115, 57, 0.7)), 
+                        url('https://lh3.googleusercontent.com/gps-cs-s/ANWiy9T8ZhW6IiiOjAIzSF9SmbC5o-LzrLnjf2WrcZ95IUzHZXx4y9oMbPpUXrSBoptC6U-Ktiw2PjnjJZLWr5SgMmeJKxkrvn3f0YFqbWZ0jshBt_IbWa_hfuVEQ7zAWY3bKKkaLBtEvy8y4x0=s1360-w1360-h1020-rw') center/cover no-repeat fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            padding: 0 20px;
+        }
+
+        .hero-content {
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-content h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 42px;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            max-width: 750px;
+            margin: 0 auto 35px auto;
+            color: #f1f2f6;
+            line-height: 1.6;
+        }
+
+        /* --- Main Layout & Shared Styles --- */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 36px;
+            color: var(--lsgd-green);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: var(--govt-gold);
+            border-radius: 2px;
+        }
+
+        /* --- About Section --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .about-text {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            border-left: 6px solid var(--lsgd-green);
+        }
+
+        .about-text h3 {
+            color: var(--lsgd-green);
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-family: 'Merriweather', serif;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            color: var(--text-muted);
+            text-align: justify;
+        }
+
+        .map-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .map-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .map-card h3 {
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .map-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #eaeaea;
+        }
+
+        /* --- New WebGIS Call-to-Action Section --- */
+        .gis-cta-section {
+            background: linear-gradient(135deg, var(--lsgd-green-dark) 0%, var(--lsgd-green) 100%);
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+            color: var(--white);
+            text-align: center;
+        }
+
+        /* Decorative background pattern for the CTA */
+        .gis-cta-section::before {
+            content: "\f279"; /* FontAwesome map icon */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            font-size: 400px;
+            color: rgba(255, 255, 255, 0.05);
+            top: -100px;
+            right: -50px;
+            transform: rotate(-15deg);
+            pointer-events: none;
+        }
+
+        .gis-cta-container {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .gis-cta-icon {
+            font-size: 50px;
+            color: var(--govt-gold);
+            margin-bottom: 20px;
+        }
+
+        .gis-cta-container h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 38px;
+            margin-bottom: 20px;
+        }
+
+        .gis-cta-container p {
+            font-size: 18px;
+            color: var(--lsgd-green-light);
+            margin-bottom: 40px;
+        }
+
+        /* --- Buttons --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 32px;
+            border-radius: 50px; /* Pill shape for modern look */
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--lsgd-green);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(10, 115, 57, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--lsgd-green-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(10, 115, 57, 0.4);
+        }
+
+        /* Distinct button for Launching the map */
+        .btn-launch {
+            background-color: var(--govt-gold);
+            color: var(--text-dark);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            font-size: 18px;
+        }
+
+        .btn-launch:hover {
+            background-color: var(--govt-gold-hover);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.6);
+            color: var(--text-dark);
+        }
+
+        .btn-outline-light {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-outline-light:hover {
+            background-color: var(--white);
+            color: var(--lsgd-green);
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #1a252f;
+            color: var(--white);
+            padding: 70px 5% 30px 5%;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer-col h3 {
+            font-family: 'Merriweather', serif;
+            color: var(--govt-gold);
+            margin-bottom: 25px;
+            font-size: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--lsgd-green);
+        }
+
+        .footer-col p {
+            color: #bdc3c7;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col a {
+            color: #bdc3c7;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .footer-col a:hover {
+            color: var(--govt-gold);
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            .about-grid { grid-template-columns: 1fr; }
+            .header-titles h1 { font-size: 24px; }
+            .hero { height: 400px; }
+            .hero-content h2 { font-size: 32px; }
+        }
+
+        @media (max-width: 768px) {
+            .top-bar { flex-direction: column; gap: 10px; text-align: center; }
+            .official-header { flex-direction: column; text-align: center; gap: 15px; padding: 20px 5%;}
+            .logo-container { flex-direction: column; }
+            .navbar { display: none; /* Replace with a hamburger menu in a real app */ }
+            .gis-cta-container h2 { font-size: 28px; }
+            .btn-group { flex-direction: column; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Info Bar -->
+    <div class="top-bar">
+        <div>
+            <i class="fas fa-envelope"></i> malavikaks850@gmail.com
+        </div>
+        <div>
+            <a href="https://www.google.com/imgres?q=beach&imgurl=https%3A%2F%2Fwww.keralatourism.org%2F_next%2Fimage%2F%3Furl%3Dhttp%253A%252F%252F127.0.0.1%252Fktadmin%252Fimg%252Fpages%252Fmobile%252Fthirumullavaram-beach-1721310696_890029ffca3daa2dfa28.webp%26w%3D3840%26q%3D75&imgrefurl=https%3A%2F%2Fwww.keralatourism.org%2Fdestination%2Fthirumullavaram-beach-kollam%2F251%2F&docid=CdI1SfXJ4N0ojM&tbnid=r39q04oCWQQXqM&vet=12ahUKEwjItq-Ak_GXAxU3leEIHVf1COgQnPAOegQIOxAA..i&w=500&h=500&hcb=2&ved=2ahUKEwjItq-Ak_GXAxU3leEIHVf1COgQnPAOegQIOxAA" target="_blank">
+                <i class="fas fa-external-link-alt"></i> Official LSGD Portal
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header class="official-header">
+        <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcQKjxF49tPJ-wP4FfxGcdjN5pFDCV28p9y-Yui-yRVQFnP1_hAriF8mienBEiMxSUrbiZWZ80wqsb4HtaQ" alt="SSUS Logo" class="logo ssus-logo">
+        
+        <div class="header-titles">
+            <h1>Polpully Grama Panchayat</h1>
+            <h2>Spatial Information System (WebGIS)</h2>
+        </div>
+
+        <img src="D:\ran\images.jpg" alt="LSGD Kerala Logo" class="logo lsgd-logo">
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <a href="#home"><i class="fas fa-home"></i> Home</a>
+        <a href="#about"><i class="fas fa-info-circle"></i> About Panchayat</a>
+        <a href="#webgis"><i class="fas fa-map-marked-alt"></i> Interactive Map</a>
+        <a href="#contact"><i class="fas fa-address-book"></i> Contact</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2>Welcome to Polpully WebGIS</h2>
+            <p>A collaborative initiative by Sree Sankaracharya University of Sanskrit (Dept. of Geography) mapping the resources and infrastructure of Polpully Grama Panchayat.</p>
+            <a href="#webgis" class="btn btn-primary">Explore Map Data <i class="fas fa-arrow-down"></i></a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="container">
+        <div class="section-header">
+            <h2>Panchayat Profile</h2>
+        </div>
+        
+        <div class="about-grid">
+            <div class="about-text">
+                <h3>Overview</h3>
+                <p>
+                    <strong>Polpully Grama Panchayat</strong> is a rural local self-government body located in the Palakkad district of Kerala, India. Positioned roughly 10 kilometers from Palakkad city and 5 kilometers from Chittur, this vibrant panchayat falls under the Chittur Assembly constituency and the Alathur Lok Sabha constituency.
+                </p>
+                <p>
+                    The Panchayat is responsible for providing essential civic services, maintaining local infrastructure, supporting sanitation and waste management, and implementing various government development programmes.
+                </p>
+                <p>
+                    Its geographical location, settlement pattern, transportation network, drainage, land use, and natural resources make it an important area for resource mapping and local-level planning. The present WebGIS project provides a comprehensive geographical overview of the region's essential resources.
+                </p>
+            </div>
+            
+            <div class="map-card">
+                <h3>Polpully Grama Panchayat <h3>
+                <img 
+                    src="https://lh3.googleusercontent.com/gps-cs-s/ANWiy9RqzM_xCyalCbCh5xfy8y6LzitlcDaChwNNitmBKwTwUUPWwV-Sj_ZvF26Mt6EGcSXJpQ93wWnVo_FvkfqV7-XshE7doXD-x6Uoh89_bPfWvQvdAVwIMu4MoqP3pwcOmarmWovT=s1360-w1360-h1020-rw" 
+                    alt="Map of POLPULLY Grama Panchayat" 
+                    class="map-image"
+                    onerror="this.src='https://via.placeholder.com/600x400?text=Location+Map+Unavailable'"
+                >
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive WebGIS CTA Section (Replaced iframe) -->
+    <section id="webgis" class="gis-cta-section">
+        <div class="gis-cta-container">
+            <i class="fas fa-globe-asia gis-cta-icon"></i>
+            <h2>Interactive Spatial Viewer</h2>
+            <p>Dive into our comprehensive spatial mapping tool. Toggle custom layers to view administrative boundaries, land utilization, transportation networks, and vital infrastructure in high resolution.</p>
+            
+            <div class="btn-group">
+                <!-- Primary Launch Button -->
+                <a href="  https://malavikaks8330.github.io/sijo/" target="_blank" class="btn btn-launch">
+                    <i class="fas fa-map-marked-alt"></i> Launch Interactive Map
+                </a>
+                
+                <!-- Secondary Info Button -->
+                <a href="https://polpullypanchayat.lsgkerala.gov.in/en" target="_blank" class="btn btn-outline-light">
+                    <i class="fas fa-university"></i> Visit LSGD Portal
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>About WebGIS</h3>
+                <p>Developed as a spatial information system to aid resource mapping, local-level planning, and efficient governance for Polpully Grama Panchayat.</p>
+            </div>
+            
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home"><i class="fas fa-chevron-right" style="font-size: 10px;"></i> Home</a></li>
+                    <li><a href="#about"><i class="fas fa-chevron-right" style="font-size: 10px;"></i> Panchayat Profile</a></li>
+                    <li><a href="#webgis"><i class="fas fa-chevron-right" style="font-size: 10px;"></i> Launch Map Viewer</a></li>
+                    <li><a href="https://lsgkerala.gov.in/" target="_blank"><i class="fas fa-chevron-right" style="font-size: 10px;"></i> LSGD Kerala Portal</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Project Contact</h3>
+                <ul>
+                    <li><p><i class="fas fa-user" style="color: var(--govt-gold); width: 20px;"></i> <strong>Smrithy K S</strong></p></li>
+                    <li><p><i class="fas fa-graduation-cap" style="color: var(--govt-gold); width: 20px;"></i> Dept. of Geography, SSUS</p></li>
+                    <li><a href="mailto:smrithysatheesh15@gmail.com"><i class="fas fa-envelope" style="color: var(--govt-gold); width: 20px;"></i> Email: smrithysatheesh15@gmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2026 Polpully Grama Panchayat WebGIS. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
